@@ -32,7 +32,9 @@ func TestCreatBook(t *testing.T) {
 	t.Run("should create a book", func(t *testing.T) {
 		e := echo.New()
 		mcPostBody := map[string]interface{}{
-			"name": "givailson",
+			"name":    "givailson",
+			"startAt": time.Now(),
+			"endAt":   time.Now(),
 		}
 		body, _ := json.Marshal(mcPostBody)
 		req := httptest.NewRequest(http.MethodGet, "/books", bytes.NewReader(body))

@@ -108,3 +108,43 @@ func (r Repository) Create(book *Book) (*Book, error) {
 
 	return newBook, nil
 }
+
+func (r Repository) Update(book *Book) (*Book, error) {
+	updatedBook := &Book{
+		Name:    book.Name,
+		StartAt: book.StartAt,
+		EndAt:   book.EndAt,
+	}
+
+	result := r.db.Model(&book).Updates(&updatedBook)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return book, nil
+}
+
+func (r Repository) Delete(book *Book) (*Book, error) {
+	result := r.db.Delete(&book)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return book, nil
+}
+
+func (r Repository) Find(id uint64) (*Book, error) {
+	books := []Book{}
+
+	if err := r.db.Find(&books, "id = ? ", id).Error; err != nil {
+		return nil, err
+	}
+
+	if len(books) == 0 {
+		return nil, nil
+	}
+
+	return &books[0], nil
+}
