@@ -14,7 +14,7 @@ type User struct {
 	Photo     string         `gorm:"size:255" json:"photo"`
 	Password  string         `json:"password"`
 	Type      string         `json:"type"`
-	Units     []*Unit        `gorm:"many2many:unit_owners" json:"units"`
+	Units     []Unit         `gorm:"many2many:unit_owners" json:"units"`
 	CreatedAt time.Time      `json:"createdAt" gorm:"autoCreateTime"`
 	UpdatedAt time.Time      `json:"updatedAt" gorm:"autoUpdateTime"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deletedAt"`
@@ -26,7 +26,7 @@ type Unit struct {
 	Number    string         `json:"password"`
 	Type      string         `json:"type"`
 	Photo     string         `gorm:"size:255" json:"photo"`
-	Owners    []*User        `gorm:"many2many:unit_owners" json:"owners"`
+	Owners    []User         `gorm:"many2many:unit_owners" json:"owners"`
 	CreatedAt time.Time      `json:"createdAt" gorm:"autoCreateTime"`
 	UpdatedAt time.Time      `json:"updatedAt" gorm:"autoUpdateTime"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deletedAt"`
@@ -42,7 +42,7 @@ type Guest struct {
 	UnitID    uint           `json:"unitID"`
 	Phone     string         `gorm:"size:20" json:"phone"`
 	Email     string         `gorm:"size:255" json:"email"`
-	Bookings  []*Booking     `gorm:"many2many:booking_guests" json:"bookings"`
+	Bookings  []Booking      `gorm:"many2many:booking_guests" json:"bookings"`
 	CreatedAt time.Time      `json:"createdAt" gorm:"autoCreateTime"`
 	UpdatedAt time.Time      `json:"updatedAt" gorm:"autoUpdateTime"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deletedAt"`
@@ -53,7 +53,7 @@ type Booking struct {
 	Name      string         `gorm:"size:255" json:"name"`
 	StartAt   time.Time      `json:"startAt"`
 	EndAt     time.Time      `json:"endAt"`
-	Guests    []*Guest       `gorm:"many2many:booking_guests" json:"guests"`
+	Guests    []Guest        `gorm:"many2many:booking_guests" json:"guests"`
 	CreatedAt time.Time      `json:"createdAt" gorm:"autoCreateTime"`
 	UpdatedAt time.Time      `json:"updatedAt" gorm:"autoUpdateTime"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deletedAt"`

@@ -11,4 +11,5 @@ func InitModule(e *echo.Echo) {
 
 	g := e.Group("users")
 	g.POST("", controller.Create)
+	g.GET("", controller.FindAll)
 }

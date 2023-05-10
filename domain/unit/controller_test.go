@@ -27,6 +27,11 @@ func (m *MockRepository) Delete(unit *domain.Unit) (*domain.Unit, error) {
 	return args[0].(*domain.Unit), args.Error(1)
 }
 
+func (m *MockRepository) FindAll(paginationOptions *domain.PaginationInputType, filter *Filter) ([]domain.Unit, *domain.PaginationResultType, error) {
+	args := m.Called()
+	return args[0].([]domain.Unit), &domain.PaginationResultType{}, args.Error(1)
+}
+
 // func (m *MockRepository) FindAll(paginationOptions *domain.PaginationInputType, filter *Filter) ([]domain.Booking, *domain.PaginationResultType, error) {
 // 	args := m.Called()
 // 	return args[0].([]domain.Booking), &domain.PaginationResultType{}, args.Error(1)
@@ -53,6 +58,7 @@ func TestCreatUnit(t *testing.T) {
 			"number": "26",
 			"type":   "casa da pscina",
 			"photo":  "http://foto.jpg",
+			"owners": "[1,2,3]",
 		}
 		body, _ := json.Marshal(mcPostBody)
 		req := httptest.NewRequest(http.MethodPost, "/units", bytes.NewReader(body))

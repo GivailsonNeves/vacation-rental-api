@@ -115,11 +115,11 @@ func TestFind(t *testing.T) {
 		repo := NewTestRepository(db)
 
 		mock.
-			ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "users" WHERE id = $1  AND "users"."deleted_at" IS NULL`)).
+			ExpectQuery(regexp.QuoteMeta(`SELECT "users"."id","users"."name","users"."phone","users"."email","users"."photo","users"."type","users"."created_at","users"."updated_at","users"."deleted_at" FROM "users" WHERE id = $1 AND "users"."deleted_at" IS NULL`)).
 			WithArgs(user.ID).
 			WillReturnRows(
-				sqlmock.NewRows([]string{"id", "name", "phone", "email", "photo", "password", "type", "created_at", "updated_at", "deleted_at"}).
-					AddRow(user.ID, user.Name, user.Phone, user.Email, user.Photo, user.Password, user.Type, user.CreatedAt, user.UpdatedAt, user.DeletedAt))
+				sqlmock.NewRows([]string{"id", "name", "phone", "email", "photo", "type", "created_at", "updated_at", "deleted_at"}).
+					AddRow(user.ID, user.Name, user.Phone, user.Email, user.Photo, user.Type, user.CreatedAt, user.UpdatedAt, user.DeletedAt))
 		guest, err := repo.Find(uint64(user.ID))
 		assert.NoError(t, err)
 		assert.NotNil(t, guest.Name)

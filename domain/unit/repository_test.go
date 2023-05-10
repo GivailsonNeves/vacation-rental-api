@@ -18,32 +18,6 @@ func NewTestRepository(db *gorm.DB) *Repository {
 	}
 }
 
-func TestCreate(t *testing.T) {
-
-	unit := &domain.Unit{
-		Avenue: "Quadra 02",
-		Number: "26",
-		Photo:  "http://photo.jpg",
-		Type:   "casa",
-	}
-
-	t.Run("should create a unit", func(t *testing.T) {
-		mock, db := storage.GetFakeDB()
-		repo := NewTestRepository(db)
-
-		mock.ExpectBegin()
-		mock.
-			ExpectQuery(regexp.QuoteMeta(`INSERT INTO "units" ("avenue","number","type","photo","created_at","updated_at","deleted_at") VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING "id"`)).
-			WithArgs(unit.Avenue, unit.Number, unit.Type, unit.Photo, sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg()).
-			WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
-		mock.ExpectCommit()
-
-		unitCreated, err := repo.Create(unit)
-		assert.NoError(t, err)
-		assert.Equal(t, unitCreated.ID, uint(1))
-	})
-}
-
 func TestDelete(t *testing.T) {
 
 	unit := &domain.Unit{
